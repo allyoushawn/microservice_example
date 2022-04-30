@@ -1,0 +1,5 @@
+fastapi_utils
+fastapi
+afinn
+uvicorn
+gunicorn
