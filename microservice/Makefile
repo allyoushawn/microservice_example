@@ -15,4 +15,4 @@ run-microservice-unit-tests:
 
 run-microservice-typing-tests:
 	echo "Running type checks for microservice" && \
-	mypy ./microservice/microservice ./mircoservice/tests/unit
+	mypy ./microservice/microservice ./microservice/tests/unit

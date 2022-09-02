@@ -22,6 +22,16 @@ RUN useradd -m -u  1000 nlp && \
     adduser nlp nogroup && \
     chmod o+x /microservice_example/microservice/service_start.sh
 
+FROM base AS test
+COPY ./microservice_example/monorepo_requirements.txt /microservice_example/monorepo_requirements.txt
+COPY ./microservice_example/pytest.ini /microservice_example/pytest.ini
+COPY ./microservice_example/mypy.ini /microservice_example/mypy.ini
+WORKDIR microservice_example
+RUN make install-microservice-test-dependencies -f /microservice_example/microservice/Makefile
+CMD make run-microservice-unit-tests -f /microservice_example/microservice/Makefile && \
+    make run-microservice-typing-tests -f /microservice_example/microservice/Makefile
+
+
 FROM base AS prod
 USER nlp
 CMD sh /microservice_example/microservice/service_start.sh

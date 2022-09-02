@@ -1,4 +1,4 @@
-import afinn
+from afinn import Afinn
 from microservice.config.config_models import SentimentModelConfig
 from typing import Any, Dict, List
 
@@ -6,7 +6,7 @@ from typing import Any, Dict, List
 class SentimentAnalyzer:
 
     def __init__(self, config: SentimentModelConfig) -> None:
-        self.scorer = afinn.Afinn()
+        self.scorer = Afinn()
         self.config = config
 
 
@@ -16,7 +16,10 @@ class SentimentAnalyzer:
         :param text:
         :return: sentiment analysis score of the given text
         """
-        return self.scorer.score(text)
+        score = self.scorer.score(text)
+        if type(score) is not float:
+            raise Exception("Error returned type from Afinn")
+        return score
 
     def get_word_num(self, text: str) -> int:
         return len(self.scorer.split(text))
